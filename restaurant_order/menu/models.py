@@ -1,7 +1,7 @@
 from django.core.cache import cache
 from django.db import models
+from django.db.models import Count
 from django.utils.text import slugify
-from django.db.models import F, Q, Count, Case, When, IntegerField
 
 
 class Category(models.Model):
@@ -24,7 +24,7 @@ class Category(models.Model):
 class Dish(models.Model):
 	name = models.CharField(max_length=30)
 	description = models.TextField(blank=True)
-	price = models.DecimalField(max_digits=12,decimal_places=2)
+	price = models.DecimalField(max_digits=12, decimal_places=2)
 	category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='dishes')
 	is_available = models.BooleanField(default=True)
 	cooking_time = models.PositiveIntegerField(help_text='Время приготовления в минутах')
@@ -48,12 +48,12 @@ class Dish(models.Model):
 			popular_dishes = cls.objects.annotate(
 				order_count=Count('order_items')
 			).filter(
-					is_available=True
+				is_available=True
 			).order_by(
-					'-order_count', '-popularity'
+				'-order_count', '-popularity'
 			)[:limit]
 
-			cache.set(cache_key, popular_dishes, 60*60)
+			cache.set(cache_key, popular_dishes, 60 * 60)
 
 		return popular_dishes
-			
+		
