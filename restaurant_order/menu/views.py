@@ -29,7 +29,7 @@ class DishListView(generics.ListAPIView):
 		result = Dish.objects.select_related('category').filter(
 			is_available=True
 		).annotate(
-			category_name=F('category_name')
+			category_name=F('category__name')
 		).order_by('category__order', 'name')
 		return result
 
