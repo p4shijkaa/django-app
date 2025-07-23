@@ -12,6 +12,10 @@ class Table(models.Model):
 	is_available = models.BooleanField(default=True)
 	description = models.TextField(blank=True)
 
+	class Meta:
+		verbose_name = 'Столик'
+		verbose_name_plural = "Столики"
+
 	def __str__(self):
 		return f"Столик #{self.number} ({self.capacity} персон)"
 
@@ -43,6 +47,8 @@ class Order(models.Model):
 
 	class Meta:
 		ordering = ['-created_at']
+		verbose_name = 'Заказ'
+		verbose_name_plural = "Заказы"
 
 	def __str__(self):
 		return f"Заказ №{self.id}"
@@ -63,6 +69,10 @@ class OrderItem(models.Model):
 	dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
 	quantity = models.PositiveIntegerField(validators=[MinValueValidator(1)])
 	price = models.DecimalField(max_digits=10, decimal_places=2)
+
+	class Meta:
+		verbose_name = 'Конкретный заказ'
+		verbose_name_plural = "Конкретные заказы"
 
 	def save(self, *args, **kwargs):
 		if not self.price:

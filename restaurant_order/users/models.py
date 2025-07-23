@@ -37,6 +37,10 @@ class User(AbstractUser):
         related_query_name="user",
     )
 
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
     def __str__(self):
         return f"{self.username} ({self.get_user_type_display()})"
 
