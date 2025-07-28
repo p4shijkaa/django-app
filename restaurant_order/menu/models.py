@@ -20,6 +20,9 @@ class Category(models.Model):
 		super().save(*args, **kwargs)
 		cache.delete('all_categories')
 
+	def __str__(self):
+		return self.name
+
 
 class Dish(models.Model):
 	name = models.CharField(max_length=30)

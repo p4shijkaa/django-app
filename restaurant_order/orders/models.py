@@ -59,9 +59,9 @@ class Order(models.Model):
 		)['total'] or 0
 
 	def save(self, *args, **kwargs):
-		if not self.pk:
-			self.total_price = self.calculate_total_price()
 		super().save(*args, **kwargs)
+		self.total_price = self.calculate_total_price()
+		super().save(update_fields=['total_price'])
 
 
 class OrderItem(models.Model):
